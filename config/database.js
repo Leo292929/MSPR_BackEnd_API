@@ -2,7 +2,8 @@ const mysql = require('mysql');
 
 // Configuration de la connexion à la base de données MySQL
 const connection = mysql.createConnection({
-    host: process.env.DB_HOST || 'host.docker.internal',
+    //host: process.env.DB_HOST || 'host.docker.internal',
+    host: process.env.DB_HOST || 3306,
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || 'root',
     database: process.env.DB_NAME || 'mspr61'

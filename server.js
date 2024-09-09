@@ -7,8 +7,12 @@ const MySQLStore = require('express-mysql-session')(session);
 const routes = require('./routes');
 const { connectToDatabase } = require('./config/database');
 require('./config/passport')(passport); // Configuration de Passport
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors());
+
 const PORT = process.env.PORT || 3000;
 
 // Connexion à la base de données

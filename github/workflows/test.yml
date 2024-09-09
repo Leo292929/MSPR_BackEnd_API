@@ -1,0 +1,50 @@
+name: Run Jest Tests
+
+# Déclencheur: Quand le code est poussé ou une PR est ouverte sur les branches main et dev
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x] # Test sur plusieurs versions de Node.js
+
+    steps:
+      # Checkout le code source
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Setup Node.js pour la version indiquée dans la stratégie
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # Installer les dépendances
+      - name: Install dependencies
+        run: npm install
+
+      # Exécuter les tests Jest
+      - name: Run tests
+        run: npm test
+
+      # Si vous voulez voir des rapports de couverture de code Jest
+      - name: Run Jest Coverage
+        run: npm test -- --coverage
+
+      # Sauvegarder les résultats de couverture dans GitHub Actions
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage
